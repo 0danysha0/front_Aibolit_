@@ -1,0 +1,67 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syk Inhibitors Predictor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Добавим стили для страницы -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        #exampleBtn {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4 text-center">Syk Inhibitors Predictor</h1>
+
+        <form action="{{ url_for('index') }}" method="post">
+            <div class="input-group">
+                <input type="text" class="form-control" name="smilesInput" placeholder="Enter SMILES" value="{{ smiles_input }}">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" id="exampleBtn" onclick="setExample()">Example</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Evaluate</button>
+        </form>
+
+        <script>
+            function setExample() {
+                document.querySelector('input[name="smilesInput"]').value = "CCS(=O)(=O)c1ccc(-c2cc3ncn(C)c(=O)c3c(NC3CC3)n2)cc1";
+            }
+        </script>
+
+        <!-- Результат предсказания IC50 -->
+        <div class="mt-4">
+            <h5>IC<sub>50</sub> Result:</h5>
+            <p>{{ result }}</p>
+        </div>
+
+        <!-- Таблица с данными для введенного SMILES -->
+        {% if table %}
+        <div class="mt-4">
+            <h5>Data for Entered SMILES:</h5>
+            {{ table | safe }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
